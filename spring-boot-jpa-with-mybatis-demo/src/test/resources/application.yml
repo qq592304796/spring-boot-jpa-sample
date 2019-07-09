@@ -1,0 +1,42 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      use-new-id-generator-mappings: false
+  datasource:
+    druid:
+      #driver-class-name: org.h2.Driver
+      #url: jdbc:h2:mem:spring-boot-jpa-demo?;DB_CLOSE_DELAY=-1;MODE=MySQL
+      url: jdbc:p6spy:mysql://${MYSQL_HOST:192.168.90.235}:${MYSQL_PORT:3306}/test?useUnicode=true&characterEncoding=UTF8
+      username: dev
+      password: devwjh
+      #driver-class-name: com.mysql.cj.jdbc.Driver
+      driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    schema:
+      - classpath:sql/ddl.sql
+    sql-script-encoding: UTF-8
+
+
+# logging config
+logging:
+  level:
+    root: INFO
+    com.hannstar: DEBUG
+wjh:
+  leaf:
+    client:
+      url: http://leaf.wjh.com
+
+# mybatis配置
+mybatis-plus:
+  mapper-locations: classpath*:sqlmap/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+    #cache-enabled: true
+  type-enums-package: com.hannstar.jpa.with.mybatis.demo.mybatis.entity.enums,com.hannstar.jpa.with.mybatis.demo.mybatis.enums
+  type-aliases-package: com.hannstar.jpa.with.mybatis.demo.mybatis.entity
+  global-config:
+    db-config:
+      logic-delete-value: 0
+      logic-not-delete-value: 1
